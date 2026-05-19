@@ -1,478 +1,1053 @@
 <!DOCTYPE html>
+
 <html lang="th">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SavingsCompare - เปรียบเทียบดอกเบี้ยบัญชีเงินฝากดิจิทัล</title>
+
+    <title>Savings Optimizer - วางแผนกระจายเงินออมรับดอกเบี้ยสูงสุด</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     
+
     <style>
+
         :root {
-            --primary-color: #1e40af;
-            --primary-light: #3b82f6;
-            --secondary-color: #eff6ff;
-            --text-color: #1e293b;
-            --text-muted: #64748b;
+
+            --primary-color: #0f172a;
+
+            --brand-color: #2563eb;
+
+            --brand-light: #eff6ff;
+
+            --success-color: #10b981;
+
+            --warning-color: #f59e0b;
+
             --bg-color: #f8fafc;
+
             --card-bg: #ffffff;
+
             --border-color: #e2e8f0;
-            --accent-gold: #eab308;
+
+            --text-color: #334155;
+
         }
+
+
 
         * {
+
             box-sizing: border-box;
+
             margin: 0;
+
             padding: 0;
-            font-family: 'Prompt', sans-serif;
+
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+
         }
+
+
 
         body {
+
             background-color: var(--bg-color);
+
             color: var(--text-color);
+
             line-height: 1.6;
-            padding-bottom: 40px;
+
+            padding-bottom: 60px;
+
         }
 
-        /* --- Header Section --- */
+
+
         .header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+
+            background-color: var(--primary-color);
+
             color: white;
+
             padding: 40px 20px;
+
             text-align: center;
-            border-bottom-left-radius: 24px;
-            border-bottom-right-radius: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+
+            border-bottom: 4px solid var(--brand-color);
+
         }
+
+
 
         .header h1 {
-            font-size: 2rem;
+
+            font-size: 1.8rem;
+
             font-weight: 600;
-            margin-bottom: 10px;
+
+            margin-bottom: 8px;
+
         }
+
+
 
         .header p {
+
             font-weight: 300;
-            opacity: 0.9;
-            font-size: 1rem;
+
+            font-size: 0.95rem;
+
+            opacity: 0.8;
+
         }
 
-        /* --- Main Content Layout --- */
+
+
         .container {
-            max-width: 1100px;
-            margin: -20px auto 0 auto;
+
+            max-width: 1200px;
+
+            margin: 30px auto;
+
             padding: 0 20px;
+
             display: grid;
+
             grid-template-columns: 1fr;
-            gap: 24px;
+
+            gap: 30px;
+
         }
 
-        @media (min-width: 768px) {
+
+
+        @media (min-width: 992px) {
+
             .container {
-                grid-template-columns: 350px 1fr;
+
+                grid-template-columns: 400px 1fr;
+
             }
+
         }
 
-        /* --- Card Styles --- */
+
+
         .card {
+
             background-color: var(--card-bg);
-            border-radius: 16px;
+
+            border-radius: 12px;
+
             padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
             border: 1px solid var(--border-color);
+
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
             height: fit-content;
+
         }
+
+
 
         .card-title {
-            font-size: 1.2rem;
+
+            font-size: 1.15rem;
+
             font-weight: 600;
+
             margin-bottom: 20px;
+
+            padding-bottom: 10px;
+
+            border-bottom: 1px solid var(--border-color);
+
             color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+
         }
 
-        /* --- Form Inputs --- */
+
+
         .form-group {
+
             margin-bottom: 20px;
+
         }
+
+
 
         .form-group label {
+
             display: block;
+
             font-size: 0.9rem;
+
             font-weight: 500;
+
             margin-bottom: 8px;
-            color: var(--text-color);
+
         }
+
+
 
         .input-wrapper {
+
             position: relative;
+
         }
+
+
 
         .form-control {
+
             width: 100%;
-            padding: 12px 60px 12px 16px; /* เว้นพื้นที่ด้านขวาให้ตัวหนังสือหน่วยนับ */
+
+            padding: 12px 60px 12px 16px;
+
             font-size: 1rem;
+
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+
+            border-radius: 8px;
+
             outline: none;
+
             transition: all 0.2s;
-            background-color: #fdfdfd;
+
         }
+
+
 
         .form-control:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+
+            border-color: var(--brand-color);
+
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+
         }
+
+
 
         .input-suffix {
+
             position: absolute;
+
             right: 16px;
+
             top: 50%;
+
             transform: translateY(-50%);
-            color: var(--text-muted);
+
             font-size: 0.9rem;
-            pointer-events: none;
+
+            color: #94a3b8;
+
         }
 
-        .btn-calc {
-            width: 100%;
-            background-color: var(--primary-light);
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: 500;
-            border-radius: 10px;
+
+
+        /* --- Checkbox List --- */
+
+        .bank-selector-list {
+
+            max-height: 250px;
+
+            overflow-y: auto;
+
+            border: 1px solid var(--border-color);
+
+            border-radius: 8px;
+
+            padding: 10px;
+
+            background-color: #fdfdfd;
+
+        }
+
+
+
+        .checkbox-item {
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 8px;
+
             cursor: pointer;
-            transition: background-color 0.2s;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-        }
 
-        .btn-calc:hover {
-            background-color: var(--primary-color);
-        }
+            border-radius: 6px;
 
-        .note-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 12px;
-            line-height: 1.4;
-        }
-
-        /* --- Results Table / List --- */
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--secondary-color);
-        }
-
-        .bank-item {
-            display: grid;
-            grid-template-columns: 50px 1fr;
-            align-items: center;
-            padding: 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            background-color: white;
-        }
-
-        .bank-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-        }
-
-        .rank-badge {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
             font-size: 0.9rem;
+
         }
 
-        .bank-item:nth-child(1) .rank-badge {
-            background-color: var(--accent-gold);
+
+
+        .checkbox-item:hover {
+
+            background-color: var(--brand-light);
+
+        }
+
+
+
+        .checkbox-item input {
+
+            margin-right: 12px;
+
+            width: 16px;
+
+            height: 16px;
+
+            accent-color: var(--brand-color);
+
+        }
+
+
+
+        .btn-submit {
+
+            width: 100%;
+
+            background-color: var(--brand-color);
+
             color: white;
-        }
 
-        .bank-info-flex {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+            border: none;
 
-        @media (min-width: 576px) {
-            .bank-info-flex {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-        }
+            padding: 14px;
 
-        .bank-details .bank-name {
-            font-weight: 600;
-            font-size: 1.05rem;
-            color: var(--text-color);
-        }
+            border-radius: 8px;
 
-        .bank-details .account-type {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+            font-size: 1rem;
 
-        .bank-math {
-            text-align: left;
-        }
-
-        @media (min-width: 576px) {
-            .bank-math {
-                text-align: right;
-            }
-        }
-
-        .interest-rate {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .interest-rate span {
-            color: #10b981;
             font-weight: 500;
+
+            cursor: pointer;
+
+            transition: background 0.2s;
+
         }
 
-        .interest-amount {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #10b981;
+
+
+        .btn-submit:hover {
+
+            background-color: #1d4ed8;
+
         }
 
-        /* --- Tips Section --- */
-        .tips-container {
-            max-width: 1100px;
-            margin: 32px auto 0 auto;
-            padding: 0 20px;
-        }
 
-        .tips-grid {
+
+        /* --- Dashboard Summary Section --- */
+
+        .summary-box {
+
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+            grid-template-columns: 1fr 1fr;
+
             gap: 16px;
-            margin-top: 16px;
-        }
 
-        .tip-box {
-            background-color: white;
-            border: 1px solid var(--border-color);
-            padding: 16px;
+            background-color: var(--brand-light);
+
+            padding: 20px;
+
             border-radius: 12px;
-            font-size: 0.85rem;
+
+            margin-bottom: 24px;
+
+            border: 1px solid rgba(37, 99, 235, 0.1);
+
         }
 
-        .tip-box strong {
-            color: var(--primary-color);
-            display: block;
-            margin-bottom: 4px;
+
+
+        .summary-item .label {
+
+            font-size: 0.85rem;
+
+            color: #64748b;
+
         }
+
+
+
+        .summary-item .value {
+
+            font-size: 1.4rem;
+
+            font-weight: 700;
+
+            color: var(--brand-color);
+
+        }
+
+
+
+        /* --- Timeline UI --- */
+
+        .timeline {
+
+            position: relative;
+
+            padding-left: 30px;
+
+            margin-top: 20px;
+
+        }
+
+
+
+        .timeline::before {
+
+            content: '';
+
+            position: absolute;
+
+            left: 11px;
+
+            top: 10px;
+
+            bottom: 10px;
+
+            width: 2px;
+
+            background-color: var(--border-color);
+
+        }
+
+
+
+        .timeline-step {
+
+            position: relative;
+
+            margin-bottom: 24px;
+
+        }
+
+
+
+        .timeline-step::before {
+
+            content: '';
+
+            position: absolute;
+
+            left: -24px;
+
+            top: 6px;
+
+            width: 10px;
+
+            height: 10px;
+
+            border-radius: 50%;
+
+            background-color: var(--brand-color);
+
+            border: 4px solid var(--card-bg);
+
+            box-shadow: 0 0 0 2px var(--brand-color);
+
+        }
+
+
+
+        .step-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+        }
+
+
+
+        .step-title {
+
+            font-weight: 600;
+
+            font-size: 1rem;
+
+            color: var(--primary-color);
+
+        }
+
+
+
+        .step-amount {
+
+            font-weight: 700;
+
+            color: var(--success-color);
+
+            font-size: 1.05rem;
+
+        }
+
+
+
+        .step-details {
+
+            font-size: 0.85rem;
+
+            color: #64748b;
+
+            margin-top: 4px;
+
+        }
+
+
+
+        .condition-badge {
+
+            display: inline-block;
+
+            background-color: #fffbeb;
+
+            border: 1px solid #fef3c7;
+
+            color: #b45309;
+
+            padding: 4px 10px;
+
+            border-radius: 6px;
+
+            font-size: 0.8rem;
+
+            margin-top: 8px;
+
+            width: 100%;
+
+        }
+
+
+
+        /* --- Loading and Errors --- */
+
+        .status-msg {
+
+            text-align: center;
+
+            padding: 40px;
+
+            color: #64748b;
+
+            font-size: 0.95rem;
+
+        }
+
     </style>
+
 </head>
+
 <body>
 
+
+
     <header class="header">
-        <h1>เปรียบเทียบดอกเบี้ยบัญชีเงินฝากดิจิทัล</h1>
-        <p>ออมเงินทั้งที เลือกบัญชีที่ให้ผลตอบแทนคุ้มค่าที่สุด</p>
+
+        <h1>🎯 แผนกระจายเงินออมดิจิทัลอัจฉริยะ</h1>
+
+        <p>ป้อนจำนวนเงินและเลือกบัญชีที่คุณมี ระบบจะคํานวณแผนการฝากที่ให้ดอกเบี้ยสูงที่สุดให้ทันที</p>
+
     </header>
 
+
+
     <main class="container">
-        
+
         <section class="card">
-            <h2 class="card-title">📊 ข้อมูลการออม</h2>
+
+            <h2 class="card-title">⚙️ ตั้งค่าการคำนวณ</h2>
+
             
+
             <div class="form-group">
-                <label for="depositAmount">จำนวนเงินออม (บาท)</label>
+
+                <label for="totalCapital">จำนวนเงินออมรวมทั้งหมด</label>
+
                 <div class="input-wrapper">
-                    <input type="number" id="depositAmount" class="form-control" value="100000" min="0" placeholder="ระบุจำนวนเงิน">
+
+                    <input type="number" id="totalCapital" class="form-control" value="100000" min="1">
+
                     <span class="input-suffix">บาท</span>
+
                 </div>
+
             </div>
+
+
 
             <div class="form-group">
-                <label for="months">ระยะเวลาการฝาก</label>
-                <select id="months" class="form-control">
-                    <option value="3">3 เดือน</option>
-                    <option value="6">6 เดือน</option>
-                    <option value="12" selected>12 เดือน (1 ปี)</option>
-                    <option value="24">24 เดือน (2 ปี)</option>
-                </select>
+
+                <label>บัญชีธนาคารที่คุณมีหรือเปิดใช้งานได้</label>
+
+                <div id="bankSelectorContainer" class="bank-selector-list">
+
+                    <div style="color:#64748b; font-size:0.85rem; text-align:center; padding:10px;">กำลังโหลดรายชื่อบัญชี...</div>
+
+                </div>
+
             </div>
 
-            <button type="button" class="btn-calc" onclick="calculateInterest()">คำนวณดอกเบี้ย</button>
-            
-            <p class="note-text">* หมายเหตุ: คำนวณตามเงื่อนไขอัตราดอกเบี้ยแบบขั้นบันได (Tiered Rate) ผลลัพธ์เป็นการคำนวณโดยประมาณ โปรดตรวจสอบเงื่อนไขล่าสุดกับธนาคารอีกครั้ง</p>
+
+
+            <button class="btn-submit" onclick="optimizePortfolio()">คำนวณแผนกระจายเงินที่ดีที่สุด</button>
+
         </section>
 
+
+
         <section class="card">
-            <div class="results-header">
-                <h2 class="card-title" style="margin-bottom: 0;">% ผลลัพธ์เปรียบเทียบดอกเบี้ย</h2>
-            </div>
+
+            <h2 class="card-title">📈 แผนการจัดสรรเงินฝากที่แนะนํา</h2>
+
             
-            <div id="bankListContainer"></div>
+
+            <div id="outputArea">
+
+                <div class="status-msg">กรุณาเลือกบัญชีและกดคำนวณแผน</div>
+
+            </div>
+
         </section>
 
     </main>
 
-    <section class="tips-container">
-        <h3 style="font-size: 1.1rem; color: var(--text-color);">💡 เคล็ดลับการออมให้ได้ผลตอบแทนมากขึ้น</h3>
-        <div class="tips-grid">
-            <div class="tip-box">
-                <strong>กระจายการออม</strong> แยกเงินออมไว้หลายบัญชีเพื่อลดความเสี่ยงและรับดอกเบี้ยสูงเต็มเพดานขั้นบันได
-            </div>
-            <div class="tip-box">
-                <strong>ออมอย่างสม่ำเสมอ</strong> เพื่อสร้างวินัยทางการเงินและสร้างผลตอบแทนจากพลังของดอกเบี้ยทบต้น
-            </div>
-            <div class="tip-box">
-                <strong>ติดตามโปรโมชั่น</strong> ธนาคารมักมีโปรเจกต์หรือแคมเปญเพิ่มดอกเบี้ยพิเศษเป็นระยะ
-            </div>
-            <div class="tip-box">
-                <strong>ตรวจสอบเงื่อนไข</strong> อ่านเงื่อนไขการฝาก ถอน และวงเงินสูงสุดให้ละเอียดก่อนตัดสินใจ
-            </div>
-        </div>
-    </section>
+
 
     <script>
-        /**
-         * ==========================================
-         * ข้อมูลธนาคารและอัตราดอกเบี้ยแบบขั้นบันได (Tiered Rate)
-         * ==========================================
-         */
-        const bankData = [
-            {
-                name: "Dime! Save",
-                provider: "เกียรตินาคินภัทร",
-                tiers: [
-                    { limit: 10000, rate: 3.00 },       
-                    { limit: 50000, rate: 1.50 },       
-                    { limit: Infinity, rate: 0.50 }     
-                ]
-            },
-            {
-                name: "LHB You",
-                provider: "แลนด์ แอนด์ เฮ้าส์",
-                tiers: [
-                    { limit: 10000, rate: 1.00 },
-                    { limit: 50000, rate: 1.75 },
-                    { limit: Infinity, rate: 0.55 }
-                ]
-            },
-            {
-                name: "TrueMoney Savings",
-                provider: "ธนาคารเกียรตินาคินภัทร (ผ่านทรูมันนี่)",
-                tiers: [
-                    { limit: 50000, rate: 2.00 },       
-                    { limit: Infinity, rate: 0.70 }     
-                ]
-            },
-            {
-                name: "Chill D",
-                provider: "ซีไอเอ็มบี ไทย",
-                tiers: [
-                    { limit: 10000, rate: 0.50 },
-                    { limit: 50000, rate: 1.80 },
-                    { limit: Infinity, rate: 1.20 }
-                ]
-            },
-            {
-                name: "Kept (Fun Account)",
-                provider: "กรุงศรีอยุธยา",
-                tiers: [
-                    { limit: Infinity, rate: 1.50 }     
-                ]
-            }
-        ];
+
+        // ⚠️ สลับเอา URL ของหน้า Google Sheet ของคุณมาใส่ตรงนี้
+
+        // รูปแบบลิงก์การดึงข้อมูลดิบในรูป CSV เพื่อเอามาแปลงเป็น Object ใน JavaScript
+
+        const SPREADSHEET_ID = '1nT4usHaVQ9abP6utDQMMdYuv9gc0pGzoy3Mz96LBvbg'; 
+
+        const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv`;
+
+
+
+        let globalBankData = []; // เก็บข้อมูลพอร์ตหลังดึงจาก Google Sheetsสำเร็จ
+
+
 
         window.onload = function() {
-            calculateInterest();
+
+            fetchBankDataFromSheets();
+
         };
 
-        function calculateInterest() {
-            const principal = parseFloat(document.getElementById('depositAmount').value) || 0;
-            const months = parseInt(document.getElementById('months').value) || 12;
-            const yearFraction = months / 12; 
 
-            let results = [];
 
-            bankData.forEach(bank => {
-                let totalInterest = 0;
-                let remainingMoney = principal;
+        /**
+
+         * ฟังก์ชันดึงข้อมูลจากฐานข้อมูล Google Sheets และแปลงเข้าสู่อาร์เรย์วัตถุ
+
+         */
+
+        async function fetchBankDataFromSheets() {
+
+            try {
+
+                const response = await fetch(SHEET_URL);
+
+                if (!response.ok) throw new Error('Network response error');
+
+                const csvText = await response.text();
+
+                
+
+                // แปลงไฟล์รูปแบบ CSV เป็น Array
+
+                const rows = csvText.split('\n').map(row => {
+
+                    // ลบเครื่องหมายคำพูดคู่ที่มักติดมากับ csv ออก
+
+                    return row.split(',').map(cell => cell.replace(/^"(.*)"$/, '$1').trim());
+
+                });
+
+
+
+                let parsedBanks = {};
+
+
+
+                // ข้ามแถวที่ 0 (Header Row) และอ่านข้อมูลจริงตั้งแต่แถวที่ 1 เป็นต้นไป
+
+                for(let i = 1; i < rows.length; i++) {
+
+                    if(!rows[i][0]) continue; // ถ้าเจอแถวว่างให้ข้าม
+
+
+
+                    const bankName = rows[i][0];
+
+                    const provider = rows[i][1];
+
+                    const limit = rows[i][2] === 'Infinity' ? Infinity : parseFloat(rows[i][2]);
+
+                    const rate = parseFloat(rows[i][3]);
+
+                    const condition = rows[i][4] || '';
+
+
+
+                    // ถ้ายังไม่มีชื่อธนาคารนี้ในระบบพอร์ต ให้กดลงทะเบียนสร้างโครงสร้างใหม่ก่อน
+
+                    if (!parsedBanks[bankName]) {
+
+                        parsedBanks[bankName] = {
+
+                            name: bankName,
+
+                            provider: provider,
+
+                            tiers: []
+
+                        };
+
+                    }
+
+
+
+                    // แนบรายละเอียดของ Tier ย่อยเข้าไปในธนาคารนั้นๆ
+
+                    parsedBanks[bankName].tiers.push({
+
+                        limit: limit,
+
+                        rate: rate,
+
+                        condition: condition
+
+                    });
+
+                }
+
+
+
+                // จัดเรียงลำดับ Tier ของแต่ละธนาคารจากวงเงินน้อยไปมาก เพื่อป้องกันข้อผิดพลาดเวลาตัดคำนวณ
+
+                globalBankData = Object.values(parsedBanks);
+
+                globalBankData.forEach(bank => {
+
+                    bank.tiers.sort((a, b) => a.limit - b.limit);
+
+                });
+
+
+
+                renderBankSelectors();
+
+
+
+            } catch (error) {
+
+                console.error("Error fetching data:", error);
+
+                document.getElementById('bankSelectorContainer').innerHTML = 
+
+                    `<div style="color:#ef4444; font-size:0.85rem; text-align:center; padding:10px;">โหลดข้อมูลหลังบ้านไม่สำเร็จ โปรดตรวจสอบการตั้งค่าการแชร์ลิงก์ชีต</div>`;
+
+            }
+
+        }
+
+
+
+        /**
+
+         * ฟังก์ชันวาดตัวเลือก Checkbox รายชื่อธนาคารจากฐานข้อมูล Sheets
+
+         */
+
+        function renderBankSelectors() {
+
+            const container = document.getElementById('bankSelectorContainer');
+
+            container.innerHTML = '';
+
+
+
+            globalBankData.forEach((bank, idx) => {
+
+                const label = document.createElement('label');
+
+                label.className = 'checkbox-item';
+
+                label.innerHTML = `
+
+                    <input type="checkbox" name="selectedBanks" value="${bank.name}" checked>
+
+                    <span><strong>${bank.name}</strong> (${bank.provider})</span>
+
+                `;
+
+                container.appendChild(label);
+
+            });
+
+        }
+
+
+
+        /**
+
+         * อัลกอริทึม "Greedy Yield Optimizer" 
+
+         * ทำหน้าที่ผ่าเงินก้อนรวมของผู้ใช้ออกเป็นชิ้นย่อยๆ แล้วเทเข้าช่องที่จ่ายดอกสูงที่สุด ณ เวลานั้นจนเต็มเพดาน
+
+         */
+
+        function optimizePortfolio() {
+
+            let totalCapital = parseFloat(document.getElementById('totalCapital').value) || 0;
+
+            if (totalCapital <= 0) return;
+
+
+
+            // ค้นหาว่าผู้ใช้เลือกติ๊กบัญชีไหนบ้าง
+
+            const checkboxes = document.querySelectorAll('input[name="selectedBanks"]:checked');
+
+            const selectedNames = Array.from(checkboxes).map(cb => cb.value);
+
+
+
+            if (selectedNames.length === 0) {
+
+                document.getElementById('outputArea').innerHTML = `<div class="status-msg" style="color:#ef4444;">กรุณาเลือกบัญชีธนาคารอย่างน้อย 1 รายการเพื่อใช้วางแผน</div>`;
+
+                return;
+
+            }
+
+
+
+            // กรองเอาเฉพาะข้อมูลธนาคารที่ผู้ใช้เลือกเปิดใช้งาน
+
+            let activeBanks = globalBankData.filter(b => selectedNames.includes(b.name));
+
+
+
+            // สร้างอาร์เรย์รายการ "ชิ้นส่วนผลตอบแทนย่อย (Available Tiers Pool)" ทั้งหมดที่มีในระบบ
+
+            let ratePool = [];
+
+
+
+            activeBanks.forEach(bank => {
+
                 let previousLimit = 0;
 
-                for (let i = 0; i < bank.tiers.length; i++) {
-                    if (remainingMoney <= 0) break;
+                bank.tiers.forEach(tier => {
 
-                    const currentTier = bank.tiers[i];
-                    const tierCapacity = currentTier.limit - previousLimit;
-                    const moneyInThisTier = Math.min(remainingMoney, tierCapacity);
+                    const capacity = tier.limit - previousLimit;
 
-                    const interestFromTier = moneyInThisTier * (currentTier.rate / 100) * yearFraction;
-                    totalInterest += interestFromTier;
+                    ratePool.push({
 
-                    remainingMoney -= moneyInThisTier;
-                    previousLimit = currentTier.limit;
-                }
+                        bankName: bank.name,
 
-                let effectiveRate = 0;
-                if (principal > 0) {
-                    effectiveRate = (totalInterest / principal) * 100 / yearFraction;
-                } else {
-                    effectiveRate = bank.tiers[0].rate;
-                }
+                        provider: bank.provider,
 
-                results.push({
-                    name: bank.name,
-                    provider: bank.provider,
-                    totalInterest: totalInterest,
-                    effectiveRate: effectiveRate
+                        rate: tier.rate,
+
+                        capacity: capacity, // วงเงินสูงสุดที่เก็บได้ในสเต็ปนี้
+
+                        condition: tier.condition,
+
+                        allocated: 0 // จำนวนเงินที่จะถูกจัดสรรเข้าไปจริง (เริ่มที่ 0)
+
+                    });
+
+                    previousLimit = tier.limit;
+
                 });
+
             });
 
-            results.sort((a, b) => b.totalInterest - a.totalInterest);
-            renderResults(results);
+
+
+            // หัวใจสำคัญ: จัดอันดับสระผลตอบแทนย่อยจาก "อัตราดอกเบี้ยสูงที่สุด" ไปหาน้อยที่สุด
+
+            ratePool.sort((a, b) => b.rate - a.rate);
+
+
+
+            let remainingMoney = totalCapital;
+
+            let allocationSteps = [];
+
+
+
+            // ไหลเงินออมเข้าสู่ช่องที่ให้ผลตอบแทนดีที่สุดจนหมดเงินต้น
+
+            for (let i = 0; i < ratePool.length; i++) {
+
+                if (remainingMoney <= 0) break;
+
+
+
+                let currentSlot = ratePool[i];
+
+                // หาปริมาณเงินที่จะหยอดลงไปในช่องนี้ได้มากที่สุด
+
+                let depositAmount = Math.min(remainingMoney, currentSlot.capacity);
+
+
+
+                if (depositAmount > 0) {
+
+                    currentSlot.allocated = depositAmount;
+
+                    remainingMoney -= depositAmount;
+
+
+
+                    // บันทึกรายการลงกระดานสรุปผลไทม์ไลน์
+
+                    allocationSteps.push({
+
+                        bankName: currentSlot.bankName,
+
+                        provider: currentSlot.provider,
+
+                        amount: depositAmount,
+
+                        rate: currentSlot.rate,
+
+                        interest: depositAmount * (currentSlot.rate / 100),
+
+                        condition: currentSlot.condition
+
+                    });
+
+                }
+
+            }
+
+
+
+            // คำนวณสรุปผลรวมพอร์ตเพื่อนำไปแสดงผลใน Dashboard
+
+            let totalInterest = allocationSteps.reduce((sum, item) => sum + item.interest, 0);
+
+            let effectiveRate = totalCapital > 0 ? (totalInterest / totalCapital) * 100 : 0;
+
+
+
+            renderTimelineResults(allocationSteps, totalInterest, effectiveRate);
+
         }
 
-        function renderResults(results) {
-            const container = document.getElementById('bankListContainer');
-            container.innerHTML = ''; 
 
-            results.forEach((bank, index) => {
-                const bankItemHTML = `
-                    <div class="bank-item">
-                        <div class="rank-badge">${index + 1}</div>
-                        <div class="bank-info-flex">
-                            <div class="bank-details">
-                                <div class="bank-name">${bank.name}</div>
-                                <div class="account-type">โดย ${bank.provider}</div>
-                            </div>
-                            <div class="bank-math">
-                                <div class="interest-rate">ดอกเบี้ยเฉลี่ยประมาณ: <span>${bank.effectiveRate.toFixed(2)}%</span></div>
-                                <div class="interest-amount">${bank.totalInterest.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท</div>
-                            </div>
-                        </div>
+
+        /**
+
+         * เรนเดอร์การจัดสรรเงินและเงื่อนไขพ่วงในรูปแบบ Timeline สวยงามตามแบบ
+
+         */
+
+        function renderTimelineResults(steps, totalInterest, effectiveRate) {
+
+            const outputArea = document.getElementById('outputArea');
+
+            
+
+            let htmlOutput = `
+
+                <div class="summary-box">
+
+                    <div class="summary-item">
+
+                        <div class="label">💰 ดอกเบี้ยรวมที่จะได้รับทั้งหมด/ปี</div>
+
+                        <div class="value">${totalInterest.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท</div>
+
                     </div>
+
+                    <div class="summary-item">
+
+                        <div class="label">📊 อัตราดอกเบี้ยเฉลี่ยรวมพอร์ต</div>
+
+                        <div class="value" style="color:#10b981;">${effectiveRate.toFixed(2)}% ต่อปี</div>
+
+                    </div>
+
+                </div>
+
+                <h3>📍 ขั้นตอนการจัดสรรกระจายเงินออมของคุณ:</h3>
+
+                <div class="timeline">
+
+            `;
+
+
+
+            steps.forEach((step, index) => {
+
+                htmlOutput += `
+
+                    <div class="timeline-step">
+
+                        <div class="step-header">
+
+                            <span class="step-title">ขั้นตอนที่ ${index + 1}: ฝากเงินเข้าบัญชี "${step.bankName}"</span>
+
+                            <span class="step-amount">+ ${step.amount.toLocaleString('th-TH')} บาท</span>
+
+                        </div>
+
+                        <div class="step-details">
+
+                            (โดย ${step.provider}) ในส่วนเงินก้อนนี้จะได้รับอัตราดอกเบี้ยคํานวณแยกคิดเป็น <strong>${step.rate.toFixed(2)}%</strong> ต่อปี<br>
+
+                            ➡ ผลตอบแทนเฉพาะก้อนนี้คือประมาณ: ${step.interest.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})} บาท/ปี
+
+                        </div>
+
+                        ${step.condition && step.condition !== '-' ? `<div class="condition-badge">⚠️ ${step.condition}</div>` : ''}
+
+                    </div>
+
                 `;
-                container.innerHTML += bankItemHTML;
+
             });
+
+
+
+            htmlOutput += `</div>`;
+
+            outputArea.innerHTML = htmlOutput;
+
         }
+
     </script>
+
 </body>
+
 </html>
