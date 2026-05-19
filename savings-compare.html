@@ -113,7 +113,7 @@
 
         .form-control {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 60px 12px 16px; /* เว้นพื้นที่ด้านขวาให้ตัวหนังสือหน่วยนับ */
             font-size: 1rem;
             border: 1px solid var(--border-color);
             border-radius: 10px;
@@ -202,7 +202,6 @@
             font-size: 0.9rem;
         }
 
-        /* ไฮไลท์อันดับ 1 */
         .bank-item:nth-child(1) .rank-badge {
             background-color: var(--accent-gold);
             color: white;
@@ -304,6 +303,7 @@
                 <label for="depositAmount">จำนวนเงินออม (บาท)</label>
                 <div class="input-wrapper">
                     <input type="number" id="depositAmount" class="form-control" value="100000" min="0" placeholder="ระบุจำนวนเงิน">
+                    <span class="input-suffix">บาท</span>
                 </div>
             </div>
 
@@ -355,19 +355,15 @@
          * ==========================================
          * ข้อมูลธนาคารและอัตราดอกเบี้ยแบบขั้นบันได (Tiered Rate)
          * ==========================================
-         * คุณสามารถแก้ไข เพิ่ม หรือลบข้อมูลธนาคารตรงนี้ได้เลยครับ
-         * * โครงสร้างของ tiers:
-         * - limit: วงเงินสูงสุดของขั้นนั้นๆ (ใส่ Infinity หากเป็นขั้นสุดท้ายที่ไม่มีจำกัดวงเงิน)
-         * - rate: อัตราดอกเบี้ยเปอร์เซ็นต์ต่อปี (%) ของช่วงเงินฝากนั้น
          */
         const bankData = [
             {
                 name: "Dime! Save",
                 provider: "เกียรตินาคินภัทร",
                 tiers: [
-                    { limit: 10000, rate: 3.00 },       /* เงินส่วนที่ไม่เกิน 10,000 บาท ได้ 3% */
-                    { limit: 50000, rate: 1.50 },       /* เงินส่วนที่เกิน 10,000 ถึง 50,000 บาท ได้ 1.5% */
-                    { limit: Infinity, rate: 0.50 }     /* เงินส่วนที่เกิน 50,000 บาทขึ้นไป ได้ 0.5% */
+                    { limit: 10000, rate: 3.00 },       
+                    { limit: 50000, rate: 1.50 },       
+                    { limit: Infinity, rate: 0.50 }     
                 ]
             },
             {
@@ -383,8 +379,8 @@
                 name: "TrueMoney Savings",
                 provider: "ธนาคารเกียรตินาคินภัทร (ผ่านทรูมันนี่)",
                 tiers: [
-                    { limit: 50000, rate: 2.00 },       /* ไม่เกิน 50,000 บาท ได้ 2% */
-                    { limit: Infinity, rate: 0.70 }     /* ส่วนเกินได้ 0.7% */
+                    { limit: 50000, rate: 2.00 },       
+                    { limit: Infinity, rate: 0.70 }     
                 ]
             },
             {
@@ -400,42 +396,34 @@
                 name: "Kept (Fun Account)",
                 provider: "กรุงศรีอยุธยา",
                 tiers: [
-                    { limit: Infinity, rate: 1.50 }     /* ได้ 1.5% เท่ากันหมดทุกจำนวนเงิน */
+                    { limit: Infinity, rate: 1.50 }     
                 ]
             }
         ];
 
-        // เรียกทำงานครั้งแรกตอนโหลดหน้าเว็บ
         window.onload = function() {
             calculateInterest();
         };
 
-        /**
-         * ฟังก์ชันหลักในการคำนวณดอกเบี้ยแบบขั้นบันได
-         */
         function calculateInterest() {
             const principal = parseFloat(document.getElementById('depositAmount').value) || 0;
             const months = parseInt(document.getElementById('months').value) || 12;
-            const yearFraction = months / 12; // สัดส่วนเวลาออมเทียบกับ 1 ปี
+            const yearFraction = months / 12; 
 
             let results = [];
 
-            // วนลูปคำนวณเงินของแต่ละธนาคาร
             bankData.forEach(bank => {
                 let totalInterest = 0;
                 let remainingMoney = principal;
                 let previousLimit = 0;
 
-                // คำนวณแยกตามขั้นเงิน (Tiers)
                 for (let i = 0; i < bank.tiers.length; i++) {
                     if (remainingMoney <= 0) break;
 
                     const currentTier = bank.tiers[i];
-                    // หาว่าเงินในเซกเมนต์นี้มีปริมาณเท่าไหร่
                     const tierCapacity = currentTier.limit - previousLimit;
                     const moneyInThisTier = Math.min(remainingMoney, tierCapacity);
 
-                    // สูตร: ดอกเบี้ยแยกตามเซกเมนต์ = เงินต้นในขั้นนั้น * อัตราดอกเบี้ยของขั้นนั้น * ระยะเวลาปี
                     const interestFromTier = moneyInThisTier * (currentTier.rate / 100) * yearFraction;
                     totalInterest += interestFromTier;
 
@@ -443,13 +431,10 @@
                     previousLimit = currentTier.limit;
                 }
 
-                // คำนวณหา "อัตราดอกเบี้ยเฉลี่ยที่แท้จริง (Effective Rate)" เพื่อแสดงผลให้ผู้ใช้รับทราบ
-                // สูตร: (ดอกเบี้ยรวม / เงินต้นทั้งหมด) * 100 / สัดส่วนปี
                 let effectiveRate = 0;
                 if (principal > 0) {
                     effectiveRate = (totalInterest / principal) * 100 / yearFraction;
                 } else {
-                    // ถ้าเงินต้นเป็น 0 ให้หยิบเอาเรทของขั้นแรกมาโชว์เป็นค่าตั้งต้น
                     effectiveRate = bank.tiers[0].rate;
                 }
 
@@ -461,19 +446,13 @@
                 });
             });
 
-            // จัดเรียงผลลัพธ์จาก ดอกเบี้ยที่ได้รับ "มากสุด" ไป "น้อยสุด"
             results.sort((a, b) => b.totalInterest - a.totalInterest);
-
-            // นำผลลัพธ์ไปเรนเดอร์ลงในหน้า HTML
             renderResults(results);
         }
 
-        /**
-         * ฟังก์ชันวาดตาราง/การ์ดแสดงผลลัพธ์ลงในหน้าเว็บ
-         */
         function renderResults(results) {
             const container = document.getElementById('bankListContainer');
-            container.innerHTML = ''; // ล้างข้อมูลเก่าออกก่อน
+            container.innerHTML = ''; 
 
             results.forEach((bank, index) => {
                 const bankItemHTML = `
