@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SavingsCompare - เปรียบเทียบดอกเบี้ยบัญชีเงินฝากดิจิทัล</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --primary-light: #3b82f6;
+            --secondary-color: #eff6ff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --accent-gold: #eab308;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        /* --- Header Section --- */
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-weight: 300;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        /* --- Main Content Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: -20px auto 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: 350px 1fr;
+            }
+        }
+
+        /* --- Card Styles --- */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+            height: fit-content;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Form Inputs --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.2s;
+            background-color: #fdfdfd;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        .btn-calc {
+            width: 100%;
+            background-color: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-calc:hover {
+            background-color: var(--primary-color);
+        }
+
+        .note-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 12px;
+            line-height: 1.4;
+        }
+
+        /* --- Results Table / List --- */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .bank-item {
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            background-color: white;
+        }
+
+        .bank-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        }
+
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* ไฮไลท์อันดับ 1 */
+        .bank-item:nth-child(1) .rank-badge {
+            background-color: var(--accent-gold);
+            color: white;
+        }
+
+        .bank-info-flex {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        @media (min-width: 576px) {
+            .bank-info-flex {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .bank-details .bank-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-color);
+        }
+
+        .bank-details .account-type {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .bank-math {
+            text-align: left;
+        }
+
+        @media (min-width: 576px) {
+            .bank-math {
+                text-align: right;
+            }
+        }
+
+        .interest-rate {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .interest-rate span {
+            color: #10b981;
+            font-weight: 500;
+        }
+
+        .interest-amount {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        /* --- Tips Section --- */
+        .tips-container {
+            max-width: 1100px;
+            margin: 32px auto 0 auto;
+            padding: 0 20px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .tip-box {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .tip-box strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>เปรียบเทียบดอกเบี้ยบัญชีเงินฝากดิจิทัล</h1>
+        <p>ออมเงินทั้งที เลือกบัญชีที่ให้ผลตอบแทนคุ้มค่าที่สุด</p>
+    </header>
+
+    <main class="container">
+        
+        <section class="card">
+            <h2 class="card-title">📊 ข้อมูลการออม</h2>
+            
+            <div class="form-group">
+                <label for="depositAmount">จำนวนเงินออม (บาท)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="depositAmount" class="form-control" value="100000" min="0" placeholder="ระบุจำนวนเงิน">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="months">ระยะเวลาการฝาก</label>
+                <select id="months" class="form-control">
+                    <option value="3">3 เดือน</option>
+                    <option value="6">6 เดือน</option>
+                    <option value="12" selected>12 เดือน (1 ปี)</option>
+                    <option value="24">24 เดือน (2 ปี)</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn-calc" onclick="calculateInterest()">คำนวณดอกเบี้ย</button>
+            
+            <p class="note-text">* หมายเหตุ: คำนวณตามเงื่อนไขอัตราดอกเบี้ยแบบขั้นบันได (Tiered Rate) ผลลัพธ์เป็นการคำนวณโดยประมาณ โปรดตรวจสอบเงื่อนไขล่าสุดกับธนาคารอีกครั้ง</p>
+        </section>
+
+        <section class="card">
+            <div class="results-header">
+                <h2 class="card-title" style="margin-bottom: 0;">% ผลลัพธ์เปรียบเทียบดอกเบี้ย</h2>
+            </div>
+            
+            <div id="bankListContainer"></div>
+        </section>
+
+    </main>
+
+    <section class="tips-container">
+        <h3 style="font-size: 1.1rem; color: var(--text-color);">💡 เคล็ดลับการออมให้ได้ผลตอบแทนมากขึ้น</h3>
+        <div class="tips-grid">
+            <div class="tip-box">
+                <strong>กระจายการออม</strong> แยกเงินออมไว้หลายบัญชีเพื่อลดความเสี่ยงและรับดอกเบี้ยสูงเต็มเพดานขั้นบันได
+            </div>
+            <div class="tip-box">
+                <strong>ออมอย่างสม่ำเสมอ</strong> เพื่อสร้างวินัยทางการเงินและสร้างผลตอบแทนจากพลังของดอกเบี้ยทบต้น
+            </div>
+            <div class="tip-box">
+                <strong>ติดตามโปรโมชั่น</strong> ธนาคารมักมีโปรเจกต์หรือแคมเปญเพิ่มดอกเบี้ยพิเศษเป็นระยะ
+            </div>
+            <div class="tip-box">
+                <strong>ตรวจสอบเงื่อนไข</strong> อ่านเงื่อนไขการฝาก ถอน และวงเงินสูงสุดให้ละเอียดก่อนตัดสินใจ
+            </div>
+        </div>
+    </section>
+
+    <script>
+        /**
+         * ==========================================
+         * ข้อมูลธนาคารและอัตราดอกเบี้ยแบบขั้นบันได (Tiered Rate)
+         * ==========================================
+         * คุณสามารถแก้ไข เพิ่ม หรือลบข้อมูลธนาคารตรงนี้ได้เลยครับ
+         * * โครงสร้างของ tiers:
+         * - limit: วงเงินสูงสุดของขั้นนั้นๆ (ใส่ Infinity หากเป็นขั้นสุดท้ายที่ไม่มีจำกัดวงเงิน)
+         * - rate: อัตราดอกเบี้ยเปอร์เซ็นต์ต่อปี (%) ของช่วงเงินฝากนั้น
+         */
+        const bankData = [
+            {
+                name: "Dime! Save",
+                provider: "เกียรตินาคินภัทร",
+                tiers: [
+                    { limit: 10000, rate: 3.00 },       /* เงินส่วนที่ไม่เกิน 10,000 บาท ได้ 3% */
+                    { limit: 50000, rate: 1.50 },       /* เงินส่วนที่เกิน 10,000 ถึง 50,000 บาท ได้ 1.5% */
+                    { limit: Infinity, rate: 0.50 }     /* เงินส่วนที่เกิน 50,000 บาทขึ้นไป ได้ 0.5% */
+                ]
+            },
+            {
+                name: "LHB You",
+                provider: "แลนด์ แอนด์ เฮ้าส์",
+                tiers: [
+                    { limit: 10000, rate: 1.00 },
+                    { limit: 50000, rate: 1.75 },
+                    { limit: Infinity, rate: 0.55 }
+                ]
+            },
+            {
+                name: "TrueMoney Savings",
+                provider: "ธนาคารเกียรตินาคินภัทร (ผ่านทรูมันนี่)",
+                tiers: [
+                    { limit: 50000, rate: 2.00 },       /* ไม่เกิน 50,000 บาท ได้ 2% */
+                    { limit: Infinity, rate: 0.70 }     /* ส่วนเกินได้ 0.7% */
+                ]
+            },
+            {
+                name: "Chill D",
+                provider: "ซีไอเอ็มบี ไทย",
+                tiers: [
+                    { limit: 10000, rate: 0.50 },
+                    { limit: 50000, rate: 1.80 },
+                    { limit: Infinity, rate: 1.20 }
+                ]
+            },
+            {
+                name: "Kept (Fun Account)",
+                provider: "กรุงศรีอยุธยา",
+                tiers: [
+                    { limit: Infinity, rate: 1.50 }     /* ได้ 1.5% เท่ากันหมดทุกจำนวนเงิน */
+                ]
+            }
+        ];
+
+        // เรียกทำงานครั้งแรกตอนโหลดหน้าเว็บ
+        window.onload = function() {
+            calculateInterest();
+        };
+
+        /**
+         * ฟังก์ชันหลักในการคำนวณดอกเบี้ยแบบขั้นบันได
+         */
+        function calculateInterest() {
+            const principal = parseFloat(document.getElementById('depositAmount').value) || 0;
+            const months = parseInt(document.getElementById('months').value) || 12;
+            const yearFraction = months / 12; // สัดส่วนเวลาออมเทียบกับ 1 ปี
+
+            let results = [];
+
+            // วนลูปคำนวณเงินของแต่ละธนาคาร
+            bankData.forEach(bank => {
+                let totalInterest = 0;
+                let remainingMoney = principal;
+                let previousLimit = 0;
+
+                // คำนวณแยกตามขั้นเงิน (Tiers)
+                for (let i = 0; i < bank.tiers.length; i++) {
+                    if (remainingMoney <= 0) break;
+
+                    const currentTier = bank.tiers[i];
+                    // หาว่าเงินในเซกเมนต์นี้มีปริมาณเท่าไหร่
+                    const tierCapacity = currentTier.limit - previousLimit;
+                    const moneyInThisTier = Math.min(remainingMoney, tierCapacity);
+
+                    // สูตร: ดอกเบี้ยแยกตามเซกเมนต์ = เงินต้นในขั้นนั้น * อัตราดอกเบี้ยของขั้นนั้น * ระยะเวลาปี
+                    const interestFromTier = moneyInThisTier * (currentTier.rate / 100) * yearFraction;
+                    totalInterest += interestFromTier;
+
+                    remainingMoney -= moneyInThisTier;
+                    previousLimit = currentTier.limit;
+                }
+
+                // คำนวณหา "อัตราดอกเบี้ยเฉลี่ยที่แท้จริง (Effective Rate)" เพื่อแสดงผลให้ผู้ใช้รับทราบ
+                // สูตร: (ดอกเบี้ยรวม / เงินต้นทั้งหมด) * 100 / สัดส่วนปี
+                let effectiveRate = 0;
+                if (principal > 0) {
+                    effectiveRate = (totalInterest / principal) * 100 / yearFraction;
+                } else {
+                    // ถ้าเงินต้นเป็น 0 ให้หยิบเอาเรทของขั้นแรกมาโชว์เป็นค่าตั้งต้น
+                    effectiveRate = bank.tiers[0].rate;
+                }
+
+                results.push({
+                    name: bank.name,
+                    provider: bank.provider,
+                    totalInterest: totalInterest,
+                    effectiveRate: effectiveRate
+                });
+            });
+
+            // จัดเรียงผลลัพธ์จาก ดอกเบี้ยที่ได้รับ "มากสุด" ไป "น้อยสุด"
+            results.sort((a, b) => b.totalInterest - a.totalInterest);
+
+            // นำผลลัพธ์ไปเรนเดอร์ลงในหน้า HTML
+            renderResults(results);
+        }
+
+        /**
+         * ฟังก์ชันวาดตาราง/การ์ดแสดงผลลัพธ์ลงในหน้าเว็บ
+         */
+        function renderResults(results) {
+            const container = document.getElementById('bankListContainer');
+            container.innerHTML = ''; // ล้างข้อมูลเก่าออกก่อน
+
+            results.forEach((bank, index) => {
+                const bankItemHTML = `
+                    <div class="bank-item">
+                        <div class="rank-badge">${index + 1}</div>
+                        <div class="bank-info-flex">
+                            <div class="bank-details">
+                                <div class="bank-name">${bank.name}</div>
+                                <div class="account-type">โดย ${bank.provider}</div>
+                            </div>
+                            <div class="bank-math">
+                                <div class="interest-rate">ดอกเบี้ยเฉลี่ยประมาณ: <span>${bank.effectiveRate.toFixed(2)}%</span></div>
+                                <div class="interest-amount">${bank.totalInterest.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += bankItemHTML;
+            });
+        }
+    </script>
+</body>
+</html>
